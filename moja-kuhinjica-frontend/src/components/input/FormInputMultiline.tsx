@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { UseFormRegister, FieldValues, FieldErrors } from 'react-hook-form'
-import styles from './FormInput.module.scss'
+import styles from './FormInputMultiline.module.scss'
 import errorIcon from '../../../public/static/assets/images/error.svg'
-import hidePassword from '../../../public/static/assets/images/hidePassword.svg'
-interface IFormInputProps {
+interface IFormMultilineInputProps {
     src: string
     placeholder: string
     type: string
@@ -16,17 +15,16 @@ interface IFormInputProps {
     defaultValue?: string
 }
 
-export const FormInput = ({
+export const FormMultilineInput = ({
     src,
     placeholder,
-    type,
     register,
     validationSchema,
     name,
     errors,
     style,
     defaultValue
-}: IFormInputProps): JSX.Element => {
+}: IFormMultilineInputProps): JSX.Element => {
     const [invalidInput, setInvalidInput] = useState(false)
 
     const isValid = (): void => {
@@ -44,22 +42,18 @@ export const FormInput = ({
     return (
         <div className={styles.wrapper}>
             <Image src={src} className={styles.icon} alt="" />
-            <input
+            <textarea
                 className={
                     invalidInput
                         ? `${styles.invalidInput} ${style}`
                         : `${styles.input} ${style}`
-                }
+                } 
                 placeholder={placeholder}
-                type={type}
                 {...register(name, validationSchema)}
                 defaultValue={defaultValue}
-            ></input>
+            ></textarea>
             {invalidInput && (
                 <Image src={errorIcon} alt="" className={styles.sideIcon} />
-            )}
-            {type === 'password' && !invalidInput && (
-                <Image src={hidePassword} alt="" className={styles.sideIcon} />
             )}
         </div>
     )

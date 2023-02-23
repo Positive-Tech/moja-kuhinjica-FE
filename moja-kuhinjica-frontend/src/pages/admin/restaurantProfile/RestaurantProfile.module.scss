@@ -1,0 +1,77 @@
+.container {
+    position: fixed;
+    left: 250px;
+    height: 100%;
+    width: 100%;
+}
+
+.title {
+    position: absolute;
+    width: 274px;
+    height: 53px;
+    left: 29px;
+    top: 18px;
+
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 35px;
+    line-height: 52px;
+
+    color: #333333;
+}
+
+.sectionTitle {
+    position: relative;
+    width: 397px;
+    height: 42px;
+    left: 30px;
+    top: 105px;
+
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 28px;
+    line-height: 42px;
+
+    color: #C10016;
+}
+
+.row {
+    display: flex;
+    height: 100%;
+  }
+  
+.column_left {
+    flex: 45%;
+    align-items: center;
+}
+.column_right {
+    flex: 55%;
+}
+
+.formDiv {
+    position: relative;
+    top: 135px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3%;
+    width: 80%;
+    height: 100%;
+    left: 30px;
+}
+
+.formButton {
+    width: 55%;
+    height: 7%;
+    background: #c10016;
+    border: 0;
+    color: white;
+    font-family: Poppins;
+    font-size: 22px;
+    font-weight: lighter;
+    border-radius: 15px;
+    cursor: pointer;
+    margin-top: 5%;
+}
