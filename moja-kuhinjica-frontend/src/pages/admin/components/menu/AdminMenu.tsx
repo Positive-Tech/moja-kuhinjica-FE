@@ -32,7 +32,7 @@ const AdminMenu = ({
                     />
                     <label className={styles.ownerName}>Pera Peric</label>
                     <br></br>
-                    <label className={styles.ownerTitle}>Vlasnik restorana</label>
+                    <label className={styles.ownerTitle}>TopFood021</label>
                 </div>
                 <div className={styles.menuOptions}>
 
@@ -45,11 +45,16 @@ const AdminMenu = ({
                     <AdminMenuButton
                         active={active === 2}
                         onClick={() => handleClick(2, '/admin/meal')}
-                        content="Dodaj jelo"
+                        content="Jela"
                     />
                     <AdminMenuButton
                         active={active === 3}
-                        onClick={() => handleClick(3, '/admin/restaurantProfile')}
+                        onClick={() => handleClick(3, '/admin/createMenu')}
+                        content="Kreiraj meni"
+                    />
+                    <AdminMenuButton
+                        active={active === 4}
+                        onClick={() => handleClick(4, '/admin/restaurantProfile')}
                         content="Profil restorana"
                     />
                 </div>

@@ -1,22 +1,37 @@
-import React from 'react'
+import React, { useState } from 'react'
 import AdminMenu from '../components/menu/AdminMenu'
 import styles from './RestaurantProfile.module.scss'
 import { FormInput } from '@/components/input/FormInput'
+import Image from 'next/image'
 import { useForm } from 'react-hook-form'
 import homeFillIcon from 'public/static/assets/images/homeFill.svg'
 import clockIcon from 'public/static/assets/images/clock-small.svg'
+import cameraIcon from 'public/static/assets/images/camera.svg'
+import restaurantImage from 'public/static/assets/images/topFood021.png'
 import locationIcon from 'public/static/assets/images/location-small.svg'
 import phoneIcon from 'public/static/assets/images/phone.svg'
 import fileIcon from 'public/static/assets/images/file.svg'
 import { FormMultilineInput } from '@/components/input/FormInputMultiline'
+import { RestaurantImage } from '../components/image/RestaurantImage'
 const RestaurantProfile = ():JSX.Element => {
-    
     const {
         register,
         handleSubmit,
         reset,
         formState: { errors },
     } = useForm()
+    const [images, setImages] = useState<any[]>(
+        [{"img": restaurantImage, "id": 1}, 
+        {"img": restaurantImage, "id": 2},
+        {"img": restaurantImage, "id": 3},
+        {"img": restaurantImage, "id": 4},
+        {"img": restaurantImage, "id": 5}
+    ]
+    ) 
+
+    const removeImage = (index: number) => {
+        setImages(images.filter((elem, i) => elem.id !== index));
+      };
 
     const onSubmit = (data: any): void => {
         reset()
@@ -24,7 +39,7 @@ const RestaurantProfile = ():JSX.Element => {
 
     return (
         <div>
-            <AdminMenu selectedButton={3}/>
+            <AdminMenu selectedButton={4}/>
             <div className={styles.container}>
                 <label className={styles.title}>Profil restorana</label>
                 <div className={styles.row}>
@@ -98,22 +113,11 @@ const RestaurantProfile = ():JSX.Element => {
                                 }}
                                 defaultValue="0644226471"
                             />
-                            {/* <FormMultilineInput
-                                register={register}
-                                errors={errors}
-                                name="description"
+                            <FormMultilineInput
                                 src={fileIcon}
                                 placeholder="Opis restorana"
-                                type="text"
-                                validationSchema={{
-                                    required: 'description is required',
-                                    pattern: {
-                                        value: /[A-Za-z]/,
-                                        message: 'invalid description value',
-                                    },
-                                }}
                                 defaultValue="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam mi elit, commodo nec ante id, ornare efficitur dui. Nulla in quam sed ex aliquam feugiat. In varius risus"
-                            /> */}
+                            />
                             <button className={styles.formButton}>
                                 Potvrdi izmene
                             </button>
@@ -121,6 +125,12 @@ const RestaurantProfile = ():JSX.Element => {
                     </div>
                     <div className={styles.column_right}>
                         <label className={styles.sectionTitle}>Dodaj slike</label>
+                        <div className={styles.imagesContainer}>
+                            <div className={styles.addImageFrame}>
+                                <Image src={cameraIcon} alt="" />
+                            </div>
+                            { images.map(image => <RestaurantImage image={image} onRemoveImage={removeImage}/>) }
+                        </div>
                     </div>
                 </div>
             </div>

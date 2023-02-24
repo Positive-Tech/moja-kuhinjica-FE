@@ -1,0 +1,36 @@
+.imageWrapper{
+    position: relative;
+    width: 268px;
+    height: 247px;
+    border-radius: 20px;
+    overflow: auto;
+    overflow-y: hidden;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.imageWrapper .binWrapper{
+    visibility: hidden;
+    position: relative;
+}
+
+.imageWrapper:hover .binWrapper{
+    visibility: visible;
+    cursor: pointer;
+}
+
+
+.imageWrapper:hover {
+    filter: brightness(40%);
+}
+
+.binButton {
+    width: 43px;
+    height: 43px;
+    filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(288deg) brightness(102%) contrast(102%);
+    stroke-width: "3";
+
+}
