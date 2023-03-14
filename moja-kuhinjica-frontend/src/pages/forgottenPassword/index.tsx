@@ -11,9 +11,6 @@ import emailIcon from 'public/static/assets/images/email.svg'
 import UserService from '@/service/User.service'
 import { Oval } from 'react-loader-spinner'
 
-interface InputType {
-    email: string
-}
 const PasswordForgettingPage = (): JSX.Element => {
     const [errorMessage, setErrorMessage] = useState<string>()
     const [showNotification, setShowNotification] = useState<boolean>(false)

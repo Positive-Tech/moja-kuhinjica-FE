@@ -12,11 +12,12 @@ import back from 'public/static/assets/images/backArrow.svg'
 import email from 'public/static/assets/images/email.svg'
 import password from 'public/static/assets/images/password.svg'
 import { Oval } from 'react-loader-spinner'
+import { routes } from '@/constants/constants'
 
 const LoginPage = (): JSX.Element => {
     const [errorMessage, setErrorMessage] = useState<string>()
-    const isLoading = useAppSelector((state) => state.auth.inProgress)
-    const dispatch: any = useAppDispatch()
+    const isLoading = useAppSelector(({ auth: { inProgress } }) => inProgress)
+    const dispatch = useAppDispatch()
     const router = useRouter()
     const {
         register,
@@ -30,7 +31,7 @@ const LoginPage = (): JSX.Element => {
             userLogin({
                 inputData,
                 onSuccess: () => {
-                    router.push('/')
+                    router.push(routes.HOME_PAGE)
                     reset()
                 },
                 onError: (message: string) => {
@@ -81,7 +82,9 @@ const LoginPage = (): JSX.Element => {
                     <Text
                         content="Zaboravili ste šifru?"
                         style={styles.forgotPasswordLabel}
-                        handleClick={() => router.push('/forgottenPassword')}
+                        handleClick={() =>
+                            router.push(routes.FORGOTTEN_PASSWORD_PAGE)
+                        }
                     />
                     <div className={styles.buttonWrapper}>
                         {isLoading ? (

@@ -6,8 +6,11 @@ import { Footer } from '@/components/footer/Footer'
 import Menu from '../../components/mobileMenu'
 import { MobileHeader } from '@/components/header/mobileHeader/MobileHeader'
 import { MobileFooter } from '@/components/footer/mobileFooter/MobileFooter'
-import { MOBILE_WIDTH } from '@/constants/constants'
+import { DAYS, INDEX_INCREMENT, MOBILE_WIDTH } from '@/constants/constants'
 import styles from './MyReservationsPage.module.scss'
+import uuid from 'react-uuid'
+
+const FIRST_ELEMENT = 0
 
 const MyReservationsPage = (): JSX.Element => {
     const [active, setActive] = useState<number>(1)
@@ -37,7 +40,7 @@ const MyReservationsPage = (): JSX.Element => {
             {isMobile ? (
                 <MobileHeader handleClick={() => setShowMenu(true)} />
             ) : (
-                <Header type="red" selectedButton={0} />
+                <Header type="red" selectedButton={FIRST_ELEMENT} />
             )}
             <div
                 className={
@@ -58,36 +61,23 @@ const MyReservationsPage = (): JSX.Element => {
                 </label>
                 <div className={styles.colDiv1}>
                     <div className={styles.menuRowDiv}>
-                        <TabButton
-                            active={active === 1}
-                            onClick={() => setActive(1)}
-                            content="PON"
-                        />
-                        <TabButton
-                            active={active === 2}
-                            onClick={() => setActive(2)}
-                            content="UTO"
-                        />
-                        <TabButton
-                            active={active === 3}
-                            onClick={() => setActive(3)}
-                            content="SRE"
-                        />
-                        <TabButton
-                            active={active === 4}
-                            onClick={() => setActive(4)}
-                            content="ČET"
-                        />
-                        <TabButton
-                            active={active === 5}
-                            onClick={() => setActive(5)}
-                            content="PET"
-                        />
-                        <TabButton
-                            active={active === 6}
-                            onClick={() => setActive(6)}
-                            content="SUB"
-                        />
+                        {DAYS.map((day, activeTabIndex) => {
+                            return (
+                                <TabButton
+                                    key={uuid()}
+                                    active={
+                                        active ===
+                                        activeTabIndex + INDEX_INCREMENT
+                                    }
+                                    onClick={() =>
+                                        setActive(
+                                            activeTabIndex + INDEX_INCREMENT
+                                        )
+                                    }
+                                    content={day}
+                                />
+                            )
+                        })}
                     </div>
                     <label className={styles.titleLabel}>Februar 4</label>
                     {!reservationsExist && (

@@ -14,6 +14,7 @@ import mobile from 'public/static/assets/images/mobile.svg'
 import successFilled from 'public/static/assets/images/successFilled.svg'
 import success from 'public/static/assets/images/success.svg'
 import { Oval } from 'react-loader-spinner'
+import { routes } from '@/constants/constants'
 
 const RegistrationPage = (): JSX.Element => {
     const [showError, setShowError] = useState<boolean>(false)
@@ -82,7 +83,7 @@ const RegistrationPage = (): JSX.Element => {
                                 validationSchema={{
                                     required: 'Ime je obavezno.',
                                     pattern: {
-                                        value: /^[A-Za-z]+$/,
+                                        value: /^[A-Za-z\s]+$/,
                                         message:
                                             'Ime može da sadrži samo slova.',
                                     },
@@ -99,7 +100,7 @@ const RegistrationPage = (): JSX.Element => {
                                 validationSchema={{
                                     required: 'Prezime je obavezno.',
                                     pattern: {
-                                        value: /^[A-Za-z]+$/,
+                                        value: /^[A-Za-z\s]+$/,
                                         message:
                                             'Prezime može da sadrži samo slova.',
                                     },
@@ -212,7 +213,7 @@ const RegistrationPage = (): JSX.Element => {
                         </div>
                         <button
                             className={styles.notificationButton}
-                            onClick={() => router.push('/')}
+                            onClick={() => router.push(routes.HOME_PAGE)}
                         >
                             zatvori
                         </button>

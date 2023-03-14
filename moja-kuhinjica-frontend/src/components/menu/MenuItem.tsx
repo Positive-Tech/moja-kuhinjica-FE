@@ -3,27 +3,44 @@ import Image from 'next/image'
 import { RegularButton } from '../button/RegularButton'
 import { Title } from '../label/Title'
 import { Text } from '../label/Text'
-import { AmountButton } from '../button/AmountButton'
 import styles from './MenuItem.module.scss'
-import pic from '../../../public/static/assets/images/meal1.png'
+import pic from 'public/static/assets/images/meal1.png'
 
+const ORDERING = 'ordering'
 interface IMenuItemProps {
     type?: string
+    title: string
+    description: string
+    price: number
+    handleClick?: () => void
+    buttonIsActive?: boolean
 }
-export const MenuItem = ({ type }: IMenuItemProps): JSX.Element => {
+export const MenuItem = ({
+    type,
+    title,
+    description,
+    price,
+    handleClick,
+    buttonIsActive,
+}: IMenuItemProps): JSX.Element => {
     const [openDescription, setOpenDescription] = useState(false)
-
-    const isOrdering = (): boolean => type === 'ordering'
+    const isOrdering = (): boolean => type === ORDERING
 
     return (
         <div className={isOrdering() ? styles.orderingWrapper : styles.wrapper}>
-            <div>
+            <div
+                className={
+                    isOrdering()
+                        ? styles.orderingPictureWrapper
+                        : styles.pictureWrapper
+                }
+            >
                 <Image src={pic} alt="" className={styles.restaurantPicture} />
             </div>
             <div className={styles.titleWrapper}>
                 <Title
                     onClick={() => setOpenDescription(!openDescription)}
-                    content="Piletina u sosu od šampinjona"
+                    content={title}
                     style={
                         isOrdering()
                             ? styles.orderingTitleLabel
@@ -47,9 +64,7 @@ export const MenuItem = ({ type }: IMenuItemProps): JSX.Element => {
             {openDescription && (
                 <div className={styles.descriptionLabelDiv}>
                     <Text
-                        content="
-                        Lorem ipsum dolor sit amet, consectetuer adipiscing
-                        elit. Donec odio. Quisque volutpat mattis eros"
+                        content={description}
                         style={
                             isOrdering()
                                 ? styles.orderingDescriptionLabel
@@ -66,7 +81,7 @@ export const MenuItem = ({ type }: IMenuItemProps): JSX.Element => {
                             : styles.contentLabel
                     }
                 >
-                    meni 1 -
+                    meni 1 -&nbsp;
                 </label>
                 <label
                     className={
@@ -75,13 +90,16 @@ export const MenuItem = ({ type }: IMenuItemProps): JSX.Element => {
                             : styles.priceLabel
                     }
                 >
-                    560 din
+                    {`${price} din`}
                 </label>
             </div>
             {isOrdering() && (
                 <div className={styles.buttonContainer}>
-                    <AmountButton />
-                    <RegularButton content="Rezerviši" />
+                    <RegularButton
+                        content="Rezerviši"
+                        onClick={handleClick}
+                        isActive={buttonIsActive}
+                    />
                 </div>
             )}
         </div>

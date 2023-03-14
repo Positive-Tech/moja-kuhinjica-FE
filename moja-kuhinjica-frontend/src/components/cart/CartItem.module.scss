@@ -14,12 +14,14 @@
 .itemContainer {
     @extend .rowDiv;
     align-items: center;
-    height: 40%;
+    height: 90px;
     border-bottom: 1px solid #c1001633;
     margin-bottom: 5%;
-
-    @media only screen and (max-width: $breakpoint-large) {
-        height: 35%;
+    @media only screen and (max-width: $breakpoint-1440p) {
+        height: 110px;
+    }
+    @media only screen and (max-width: $breakpoint-900p) {
+        height: 90px;
     }
 }
 
@@ -35,9 +37,17 @@
     border-radius: 20px;
     overflow-y: hidden;
 
+    @media only screen and (max-width: $breakpoint-1440p) {
+        height: 90px;
+        width: 100px;
+    }
+    @media only screen and (max-width: $breakpoint-900p) {
+        height: 80px;
+        width: 95px;
+    }
     @media only screen and (max-width: $breakpoint-large) {
         height: 70px;
-        width: 85px;
+        width: 80px;
     }
 }
 
@@ -55,11 +65,25 @@
 .mealName {
     font-size: 14px;
     margin-bottom: 5%;
+
+    @media only screen and (max-width: $breakpoint-1080p) {
+        font-size: 16px;
+    }
+    @media only screen and (max-width: $breakpoint-900p) {
+        font-size: 14px;
+    }
 }
 
 .amountWrapper {
     justify-content: flex-start;
     height: 20%;
+
+    @media only screen and (max-width: $breakpoint-1080p) {
+        height: 30%;
+    }
+    @media only screen and (max-width: $breakpoint-900p) {
+        height: 20%;
+    }
 }
 
 .amountLabel {
@@ -92,4 +116,11 @@
 }
 .price {
     font-size: 14px;
+
+    @media only screen and (max-width: $breakpoint-1080p) {
+        font-size: 16px;
+    }
+    @media only screen and (max-width: $breakpoint-900p) {
+        font-size: 14px;
+    }
 }

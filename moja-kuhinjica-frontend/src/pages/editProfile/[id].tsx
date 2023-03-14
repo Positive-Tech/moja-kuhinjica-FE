@@ -11,7 +11,7 @@ import Menu from '../../components/mobileMenu'
 import { MobileHeader } from '@/components/header/mobileHeader/MobileHeader'
 import { MobileFooter } from '@/components/footer/mobileFooter/MobileFooter'
 import { PasswordChangeModal } from '@/components/modal/passwordChange/PasswordChangeModal'
-import { MOBILE_WIDTH } from '@/constants/constants'
+import { MOBILE_WIDTH, routes } from '@/constants/constants'
 import email from 'public/static/assets/images/email.svg'
 import profile from 'public/static/assets/images/profile.svg'
 import mobile from 'public/static/assets/images/mobile.svg'
@@ -137,7 +137,9 @@ const EditProfilePage = (): JSX.Element => {
                                         className={styles.changePasswordLabel}
                                         onClick={() =>
                                             isMobile
-                                                ? router.push('/passwordChange')
+                                                ? router.push(
+                                                      routes.CHANGE_PASSWORD_PAGE
+                                                  )
                                                 : setShowPasswordModal(true)
                                         }
                                     >
@@ -156,7 +158,7 @@ const EditProfilePage = (): JSX.Element => {
                                     validationSchema={{
                                         required: 'Ime je obavezno.',
                                         pattern: {
-                                            value: /^[A-Za-z]+$/,
+                                            value: /^[A-Za-z\s]+$/,
                                             message:
                                                 'Ime može da sadrži samo slova.',
                                         },
@@ -181,7 +183,7 @@ const EditProfilePage = (): JSX.Element => {
                                     validationSchema={{
                                         required: 'Prezime je obavezno.',
                                         pattern: {
-                                            value: /^[A-Za-z]+$/,
+                                            value: /^[A-Za-z\s]+$/,
                                             message:
                                                 'Prezime može da sadrži samo slova.',
                                         },

@@ -15,16 +15,24 @@ import { useAppDispatch, useAppSelector } from '@/utils/hooks'
 import { loadUser } from '@/reduxStore/reducers/userReducer'
 import { PasswordForgettingModal } from '@/components/modal/passwordForgetting/PasswordForgettingModal'
 import { PasswordResettingModal } from '@/components/modal/passwordReset/PasswordResettingModal'
-import { MOBILE_WIDTH } from 'src/constants/constants'
+import {
+    DAYS,
+    INDEX_INCREMENT,
+    MOBILE_WIDTH,
+    routes,
+} from 'src/constants/constants'
 import styles from 'src/styles/Home.module.scss'
 import scrollArrowIcon from 'public/static/assets/images/scrollArrow.svg'
 import burgerMenuIcon from 'public/static/assets/images/burgerMenu.svg'
+import RestaurantService, { IMeal, IMenu } from '@/service/Restaurant.service'
+import uuid from 'react-uuid'
 
 const HEADER_TYPE = 'main'
 const NOTIFICATION_MODAL_TYPE = 'registration'
 
 const Home = (): JSX.Element => {
-    const [active, setActive] = useState<number>(2)
+    const today = new Date(Date.now())
+    const [active, setActive] = useState<number>(today.getDay())
     const [showMenu, setShowMenu] = useState<boolean>(false)
     const [showLoginModal, setShowLoginModal] = useState<boolean>(false)
     const [showSignUpModal, setShowSignUpModal] = useState<boolean>(false)
@@ -37,15 +45,23 @@ const Home = (): JSX.Element => {
     const [windowWidth, setWindowWidth] = useState<number>(0)
     const [userEmail, setUserEmail] = useState<string>('')
     const [resetPasswordMessage, setResetPasswordMessage] = useState<string>('')
+    const [allMenus, setAllMenus] = useState<IMenu[]>([])
+    const [selectedMenu, setSelectedMenu] = useState<IMenu>()
 
     const dispatch = useAppDispatch()
-    const isAuthorized = useAppSelector((state) => state.auth.isAuthorized)
+    const isAuthorized = useAppSelector(
+        ({ auth: { isAuthorized } }) => isAuthorized
+    )
     const router = useRouter()
     const ref = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
-        if (isAuthorized) dispatch<any>(loadUser())
+        if (isAuthorized) dispatch(loadUser())
     }, [isAuthorized])
+
+    useEffect(() => {
+        fetchMenus()
+    }, [])
 
     useEffect(() => {
         handleWindowResize()
@@ -66,12 +82,12 @@ const Home = (): JSX.Element => {
     }
 
     const handleSignUpClick = (): void => {
-        if (isMobile) router.push('/registration')
+        if (isMobile) router.push(routes.REGISTRATION_PAGE)
         else setShowSignUpModal(true)
     }
 
     const handleLoginClick = (): void => {
-        if (isMobile) router.push('/login')
+        if (isMobile) router.push(routes.LOGIN_PAGE)
         else setShowLoginModal(true)
     }
 
@@ -80,12 +96,23 @@ const Home = (): JSX.Element => {
         setShowNotification(true)
     }
 
+    const fetchMenus = (): void => {
+        RestaurantService.fetchWeeklyMenus()
+            .then((res) => {
+                setAllMenus(res.data)
+                setSelectedMenu(res.data[active - INDEX_INCREMENT])
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+    }
+
     return (
         <div className={styles.colDiv}>
             {showMenu && <Menu closeMenu={() => setShowMenu(false)} />}
             <Header
                 type={HEADER_TYPE}
-                selectedButton={1}
+                selectedButton={INDEX_INCREMENT}
                 openLoginModal={setShowLoginModal}
             />
             <div className={styles.wrapper}>
@@ -137,55 +164,53 @@ const Home = (): JSX.Element => {
                             Restoran Top FOOD 021
                         </label>
                         <label
-                            onClick={() => router.push('/restaurant/profile')}
+                            onClick={() =>
+                                router.push(routes.RESTAURANT_PROFILE_PAGE)
+                            }
                             className={styles.restaurantInfoLabel}
                         >
-                            opste informacije
+                            opšte informacije
                         </label>
                     </div>
                     <label className={styles.titleLabel}>
-                        Dnevni meni - 21/01/2023
+                        {`Dnevni meni - ${today.toLocaleDateString()}`}
                     </label>
                     <div className={styles.menuRowDiv}>
-                        <TabButton
-                            active={active === 1}
-                            onClick={() => setActive(1)}
-                            content="PON"
-                        />
-                        <TabButton
-                            active={active === 2}
-                            onClick={() => setActive(2)}
-                            content="UTO"
-                        />
-                        <TabButton
-                            active={active === 3}
-                            onClick={() => setActive(3)}
-                            content="SRE"
-                        />
-                        <TabButton
-                            active={active === 4}
-                            onClick={() => setActive(4)}
-                            content="ČET"
-                        />
-                        <TabButton
-                            active={active === 5}
-                            onClick={() => setActive(5)}
-                            content="PET"
-                        />
-                        <TabButton
-                            active={active === 6}
-                            onClick={() => setActive(6)}
-                            content="SUB"
-                        />
+                        {DAYS.map((day, activeTabIndex) => {
+                            return (
+                                <TabButton
+                                    key={uuid()}
+                                    active={
+                                        active ===
+                                        activeTabIndex + INDEX_INCREMENT
+                                    }
+                                    onClick={() => {
+                                        setActive(
+                                            activeTabIndex + INDEX_INCREMENT
+                                        )
+                                        setSelectedMenu(
+                                            allMenus[activeTabIndex]
+                                        )
+                                    }}
+                                    content={day}
+                                />
+                            )
+                        })}
                     </div>
                     <div className={styles.menuGridDiv}>
-                        <MenuItem />
-                        <MenuItem />
-                        <MenuItem />
-                        <MenuItem />
-                        <MenuItem />
-                        <MenuItem />
-                        <MenuItem />
+                        {selectedMenu &&
+                            selectedMenu.meals.map(
+                                ({ id, title, description, price }: IMeal) => {
+                                    return (
+                                        <MenuItem
+                                            key={id}
+                                            title={title}
+                                            description={description}
+                                            price={price}
+                                        />
+                                    )
+                                }
+                            )}
                     </div>
                 </div>
             </div>

@@ -8,6 +8,7 @@ import { ErrorLabel } from '@/components/label/ErrorLabel'
 import { useRouter } from 'next/router'
 import UserService from '@/service/User.service'
 import { Oval } from 'react-loader-spinner'
+import { routes } from '@/constants/constants'
 
 const ResetPasswordPage = (): JSX.Element => {
     const [showError, setShowError] = useState<boolean>(false)
@@ -40,7 +41,7 @@ const ResetPasswordPage = (): JSX.Element => {
         setShowError(false)
         UserService.resetPassword(data)
             .then((res) => {
-                router.push('/email/verification/reset')
+                router.push(routes.RESET_PASSWORD_PAGE)
                 setIsLoading(false)
             })
             .catch((err) => {

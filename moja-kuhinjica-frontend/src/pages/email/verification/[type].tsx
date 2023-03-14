@@ -5,18 +5,22 @@ import successIcon from 'public/static/assets/images/successFilled.svg'
 import { Title } from '@/components/label/Title'
 import { RegularButton } from '@/components/button/RegularButton'
 import { useRouter } from 'next/router'
+import { routes } from '@/constants/constants'
+
+const RESET_TYPE = 'reset'
+const REGISTRATION_TYPE = 'registration'
 
 const VerificationPage = (): JSX.Element => {
     const router = useRouter()
     const { type } = router.query
     return (
         <div className={styles.container}>
-            {(type === 'reset' || type === 'registration') && (
+            {(type === RESET_TYPE || type === REGISTRATION_TYPE) && (
                 <div className={styles.wrapper}>
                     <Image src={successIcon} alt="" className={styles.icon} />
                     <Title
                         content={
-                            type === 'registration'
+                            type === REGISTRATION_TYPE
                                 ? 'Vaš nalog je uspešno verifikovan'
                                 : 'Vaša šifra je uspešno resetovana'
                         }
@@ -26,7 +30,8 @@ const VerificationPage = (): JSX.Element => {
                         <RegularButton
                             content="Nazad na početnu"
                             style={styles.confirmButton}
-                            onClick={() => router.push('/')}
+                            onClick={() => router.push(routes.HOME_PAGE)}
+                            isActive
                         />
                     </div>
                 </div>

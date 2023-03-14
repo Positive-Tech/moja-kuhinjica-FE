@@ -29,7 +29,7 @@ export const LoginModal = ({
 }: ILoginModalProps): JSX.Element => {
     const dispatch = useAppDispatch()
     const [errorMessage, setErrorMessage] = useState<string>()
-    const isLoading = useAppSelector((state) => state.auth.inProgress)
+    const isLoading = useAppSelector(({ auth: { inProgress } }) => inProgress)
     const {
         register,
         handleSubmit,

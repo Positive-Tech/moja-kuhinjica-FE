@@ -31,3 +31,9 @@
         margin: 5px;
     }
 }
+
+.disabledButton {
+    @extend .button;
+    cursor: auto;
+    opacity: 0.7;
+}
